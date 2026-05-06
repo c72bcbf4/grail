@@ -1,0 +1,66 @@
+defaults:
+  - _self_
+  - training: prod
+  - optimizer: default
+  - encoder@encoder_target: gine
+  - encoder@encoder_query: gine
+  - decoder: one
+  - environment: qm9
+  - override hydra/job_logging: none
+  - override hydra/launcher: custom
+
+output_dir: null
+overrides: null
+batch: 0
+batch_size: null
+batch_idx: 0
+
+hydra:
+  run:
+    dir: outputs/run-${now:%Y-%m-%d-%H-%M-%S}
+  sweep:
+    dir: outputs/sweep-${now:%Y-%m-%d-%H-%M-%S}
+  launcher:
+    mode: submit
+    strict: true
+    batch_size: 1
+    conf:
+      slurm_job_name: "grail"
+      slurm_nodes: 1
+      slurm_mem: "0"
+      slurm_time: "24:00:00"
+      slurm_tasks_per_node: 4
+      slurm_cpus_per_task: 19
+      slurm_account: ""
+      slurm_partition: ""
+      slurm_gres: "gpu:4"
+  sweeper:
+    params:
+      environment: qm9
+
+      encoder@encoder_query: gine
+      encoder_query.num_layers: 5
+      encoder_query.hidden_channels: 512
+      encoder_query.hidden_scale: 2
+
+      decoder: three
+      decoder.dropout: 0.1
+
+      optimizer.lr_start: 1e-4
+      optimizer.lr_max: 1e-3
+      optimizer.lr_end: 1e-4
+      optimizer.gamma: 3.0
+
+      optimizer.lr_warmup_samples: 1_000_000_000
+      optimizer.lr_total_samples: 10_000_000_000
+
+      training.n_train_workers: 16
+      training.n_test_workers: 16
+      training.rollouts_per_epoch: 1024
+      training.buffer_min_size: 100_000
+      training.buffer_max_size: 100_000
+      training.buffer_multiplier: 0
+
+      training.samples_per_epoch: 50_000_000
+      training.buffer_batch_size: 0
+      training.total_batch_size: 8192

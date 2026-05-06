@@ -1,0 +1,4 @@
+graph: [2048,1024,512]
+edges: [2048,1024,512]
+norm: "LayerNorm"
+dropout: 0.0

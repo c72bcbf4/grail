@@ -1,0 +1,39 @@
+defaults:
+  - _self_
+  - training: dev
+  - optimizer: default
+  - encoder@encoder_target: gine
+  - encoder@encoder_query: gine
+  - decoder: one
+  - environment: qm9
+  - override hydra/job_logging: none
+  - override hydra/launcher: custom
+
+output_dir: null
+overrides: null
+batch: 0
+batch_size: null
+batch_idx: 0
+
+hydra:
+  run:
+    dir: outputs/run-${now:%Y-%m-%d-%H-%M-%S}
+  sweep:
+    dir: outputs/sweep-${now:%Y-%m-%d-%H-%M-%S}
+  launcher:
+    mode: submit
+    strict: true
+    batch_size: 4
+    conf:
+      slurm_job_name: "grail"
+      slurm_nodes: 1
+      slurm_mem: "0"
+      slurm_tasks_per_node: 4
+      slurm_time: "24:00:00"
+      slurm_cpus_per_task: 19
+      slurm_account: ""
+      slurm_partition: ""
+      slurm_gres: "gpu:4"
+  sweeper:
+    params:
+      training.total_batch_size: 128,256,512,1024

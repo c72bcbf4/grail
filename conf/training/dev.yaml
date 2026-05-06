@@ -1,0 +1,13 @@
+samples_per_run: 10_000
+samples_per_epoch: 100
+rollouts_per_epoch: 16
+
+total_batch_size: 16
+
+buffer_batch_size: 4
+buffer_min_size: 10_000
+buffer_max_size: 100_000
+buffer_multiplier: 1
+
+n_train_workers: 1
+n_test_workers: 2

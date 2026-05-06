@@ -1,0 +1,6 @@
+_target_: src.data.MoleculeGenerator
+dataset: pubchem_50
+min_size: 40
+max_size: 50
+image_size: 384
+task: null

@@ -1,0 +1,6 @@
+_target_: src.data.MoleculeGenerator
+dataset: qm9
+min_size: 2
+max_size: 9
+image_size: 256
+task: null

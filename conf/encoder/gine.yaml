@@ -1,0 +1,11 @@
+_target_: src.nn.GINE
+_partial_: true
+node_embed_dim: 128
+edge_embed_dim: 128
+hidden_channels: 128
+hidden_scale: 1
+output_channels: null
+num_layers: 3
+mode: "last"
+norm: "LayerNorm"
+task: graph
